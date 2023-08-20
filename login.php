@@ -5,28 +5,30 @@ include("connection.php");
 include("functions.php");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
     $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    if (!empty($user_name) && !empty($password) && !is_numeric($user_name) && !empty($email)) {
+    if (!empty($password) && !empty($email)) {
 
-        $user_id = random_num(20);
-        $query = "SELECT * FROM users WHERE email = '$email' limit 1";
-        
-        $result = mysqli_query($con, $query);
-        if( $result && mysqli_num_rows($result) > 0)
+        $query = "SELECT * FROM users WHERE email = ? LIMIT 1";
+        $stmt = mysqli_prepare($con, $query);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if($result && mysqli_num_rows($result) > 0)
         {
             $user_data = mysqli_fetch_assoc($result);
-            if($user_data['password'] == $password)
+            if(password_verify($password, $user_data['password']))
             {
                 $_SESSION["user_id"] = $user_data["user_id"];
                 header("Location: index.php");
                 die;
-            } 
-            else{
-                
             }
+            else{
+                echo "Wrong credientials";
+            }
+            
         }
 
 
@@ -47,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 </head>
 <body>
     <div class="container border rounded my-5">
-    <form metdod="post">
+    <form method="post" action="login.php"> 
   <div class="mb-3 p-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
