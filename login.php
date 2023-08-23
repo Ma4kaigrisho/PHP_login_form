@@ -16,24 +16,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
+        //checking if such a user exists
         if($result && mysqli_num_rows($result) > 0)
-        {
+        {   
+            //taking the data from the result variable
             $user_data = mysqli_fetch_assoc($result);
+
+            //checking fi the password is correct
             if(password_verify($password, $user_data['password']))
             {
+                //setting the value of user_id to be equal to the id of the logged user to maintain authentication
                 $_SESSION["user_id"] = $user_data["user_id"];
+
+                //relocating to the profile page
                 header("Location: index.php");
                 die;
             }
             else{
-                echo "Wrong credientials";
+                
             }
             
         }
 
 
     } else {
-        echo "Please enter some valid info";
+        
     }
 }
 ?>

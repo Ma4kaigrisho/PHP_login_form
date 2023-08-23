@@ -6,22 +6,31 @@ include("functions.php");
 $_SESSION["registration_success"] = NULL;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    //taking the valuee from the input and sanitizing them from xss
     $user_name = htmlspecialchars($_POST['user_name']);
     $email = htmlspecialchars($_POST['email']);
     $phone = htmlspecialchars($_POST['phone']);
     $password = htmlspecialchars($_POST['password']);
     $success = false;
 
-    if (!empty($user_name) && !empty($password) && !is_numeric($user_name) && !empty($email)) {
+    //checking if we do not have empty values
+    if (!empty($user_name) && !empty($password) && !is_numeric($user_name) && !empty($email) && !empty($phone)){
 
+        //using the function random_num in functions.php to create a random number
         $user_id = random_num(20);
+
+        //hashing the passwords
         $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
 
+        //sql query
         $query = "INSERT INTO users (user_id, user_name, phone, email, password) VALUES (?, ?, ?, ?, ?)";
 
+        //sql injection prevntion
         $stmt = mysqli_prepare($con, $query);
         mysqli_stmt_bind_param($stmt, "sssss", $user_id, $user_name, $phone, $email, $hashed_pass);
         mysqli_stmt_execute($stmt);
+
+        //variable set to true in order to display the success message
         $_SESSION["registration_success"] = true;
 
         
@@ -65,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <button class="btn btn-secondary m-3"> <a href="login.php">Login</a></button>
 </form>
     </div>
-    <div class="success" <?php if(isset($_SESSION["registration_success"])) echo "style='display: flex;'"; ?>>
+    <div class="success border" <?php if(isset($_SESSION["registration_success"])) echo "style='display: flex;'"; ?>>
         Successfully Registered
         <br>
         <button class="btn btn-secondary m-3" id="successLogin"> <a href="login.php">Login</a></button>

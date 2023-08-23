@@ -2,10 +2,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-a{
-    text-decoration: none;
-    color: white;
+    background: rgb(34,193,195);
+    background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(174,6,240,1) 40%);
 }
 .success{
     display: none;
@@ -20,6 +18,16 @@ a{
     border-radius: 10%;
     box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.75);
 }
-.op{
-    opacity: 0.5;
+
+button a{
+    text-decoration: none !important;
+    color: white;
+}
+.container{
+   h1{
+    text-align: center;
+   }
+   background-color: #22102a;
+   color: white;
+   box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }

@@ -18,9 +18,3 @@ function validateForm() {
     }
     
 }
-$(document).ready(function(){
-    $("#success-login").on("click",function(){
-        $(".sign").toggleClass("op");
-        $(".success").toggleClass("d-none");
-    })
-})

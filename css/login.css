@@ -1,0 +1,18 @@
+button a {
+  text-decoration: none !important;
+  color: white;
+}
+
+.container {
+  background-color: #22102a;
+  color: white;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.container h1 {
+  text-align: center;
+}
+
+body {
+  background: rgb(34, 193, 195);
+  background: radial-gradient(circle, rgb(34, 193, 195) 0%, rgb(174, 6, 240) 40%);
+}
