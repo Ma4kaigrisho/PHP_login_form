@@ -19,8 +19,8 @@ function validateForm() {
     
 }
 $(document).ready(function(){
-    if(!($(".success").hasClass("d-none")))
-    {
-        $(".container").toggleClass("op");
-    }
+    $("#success-login").on("click",function(){
+        $(".sign").toggleClass("op");
+        $(".success").toggleClass("d-none");
+    })
 })
